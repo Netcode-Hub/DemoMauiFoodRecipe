@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DemoMauiFoodRecipe.Views.OriginPage"
+             xmlns:viewmodel="clr-namespace:DemoMauiFoodRecipe.ViewModels"
+            x:DataType="viewmodel:OriginPageViewModel"
+            xmlns:sfPopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+            xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+            xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+            Title="{Binding Title}">
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Origin" Command="{Binding ShowDialogCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <sfPopup:SfPopup IsOpen="{Binding ShowPopup}" HeaderTitle="{Binding HeaderTitle}" WidthRequest="350">
+            <sfPopup:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <Frame>
+                        <HorizontalStackLayout Spacing="5">
+                            <inputLayout:SfTextInputLayout Hint="Origin Name" WidthRequest="250" HeightRequest="70">
+                                <Entry Text="{Binding OriginObject.Name}"  />
+                            </inputLayout:SfTextInputLayout>
+                            <Button Text="Save" Command="{Binding SaveObjectCommand}" HeightRequest="50" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,-20,0,0" CornerRadius="5"></Button>
+                        </HorizontalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </sfPopup:SfPopup.ContentTemplate>
+        </sfPopup:SfPopup>
+
+        <Grid RowDefinitions="*" HeightRequest="600">
+            <dataGrid:SfDataGrid ItemsSource="{Binding OriginObjects}" ColumnWidthMode="Auto" AutoGenerateColumnsMode="None" SortingMode="Single" HorizontalOptions="CenterAndExpand"  SelectionMode="Single"  SelectedRow="{Binding SelectedRowData}" ShowSortNumbers="True">
+                <dataGrid:SfDataGrid.Columns>
+                    <dataGrid:DataGridTextColumn HeaderText="Origin ID" MappingName="Id"/>
+                    <dataGrid:DataGridTextColumn HeaderText="Origin Name" MappingName="Name"/>
+                </dataGrid:SfDataGrid.Columns>
+            </dataGrid:SfDataGrid>
+        </Grid>
+
+    </StackLayout>
+
+
+</ContentPage>

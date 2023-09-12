@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DemoMauiFoodRecipe.Views.ProcedurePage"
+              xmlns:viewmodel="clr-namespace:DemoMauiFoodRecipe.ViewModels"
+            x:DataType="viewmodel:ProcedurePageViewModel"
+            xmlns:sfPopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+            xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+            xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+            xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+            xmlns:control="clr-namespace:DemoMauiFoodRecipe.CustomControls"
+             Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Procedure" Command="{Binding ShowDialogCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <Grid RowDefinitions="Auto,*" HeightRequest="600">
+
+            <editors:SfComboBox ItemsSource="{Binding RecipeObjects}" DisplayMemberPath = "Name" TextMemberPath = "Name" IsEditable="false" Placeholder="Select Recipe Name" SelectedItem="{Binding GetProceduresByRecipe}" />
+
+            <dataGrid:SfDataGrid Grid.Row="1" ItemsSource="{Binding ProcedureObjects}" ColumnWidthMode="Auto" AutoGenerateColumnsMode="None" SortingMode="Single" HorizontalOptions="CenterAndExpand"  SelectionMode="Single"  SelectedRow="{Binding SelectedRowData}" ShowSortNumbers="True">
+                <dataGrid:SfDataGrid.Columns>
+                    <dataGrid:DataGridTextColumn HeaderText="Procedure ID" MappingName="Id" />
+                    <dataGrid:DataGridTextColumn HeaderText="Procedure Title" MappingName="Title"/>
+                    <dataGrid:DataGridTextColumn HeaderText="Procedure No" MappingName="Number"/>
+                    <dataGrid:DataGridTextColumn HeaderText="Time Needed" MappingName="TimeNeeded"/>
+                    <dataGrid:DataGridTextColumn HeaderText="Recipe Name" MappingName="Recipe.Name"/>
+                    <dataGrid:DataGridTextColumn HeaderText="Description" MappingName="Description"/>
+                </dataGrid:SfDataGrid.Columns>
+            </dataGrid:SfDataGrid>
+        </Grid>
+
+        <sfPopup:SfPopup IsOpen="{Binding ShowPopup}" HeaderTitle="{Binding HeaderTitle}" WidthRequest="450" HeightRequest="700">
+            <sfPopup:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <Frame>
+                        <VerticalStackLayout Spacing="10">
+
+                            <inputLayout:SfTextInputLayout Hint="Procedure Title" >
+                                <Entry Text="{Binding ProcedureObject.Title}"/>
+                            </inputLayout:SfTextInputLayout>
+
+                            <inputLayout:SfTextInputLayout Hint="Select Recipe">
+                                <editors:SfComboBox ItemsSource="{Binding RecipeObjects}" DisplayMemberPath = "Name" TextMemberPath = "Name" IsEditable="True" Placeholder="Select Recipe" SelectedItem="{Binding SelectedRecipe}" />
+                            </inputLayout:SfTextInputLayout>
+
+                            <inputLayout:SfTextInputLayout Hint="Add Procedure No.">
+                                <editors:SfNumericEntry Value="{Binding ProcedureObject.Number}" CustomFormat="0" ShowClearButton="True" IsEditable="True" />
+                            </inputLayout:SfTextInputLayout>
+
+                            <inputLayout:SfTextInputLayout Hint="Specify Time Needed" >
+                                <editors:SfNumericEntry Value="{Binding ProcedureObject.TimeNeeded}" CustomFormat="00.00" ShowClearButton="True" IsEditable="True" />
+                            </inputLayout:SfTextInputLayout>
+
+                            <inputLayout:SfTextInputLayout Hint="Procedure Description" Margin="0,0,0,10">
+                                <Entry Text="{Binding ProcedureObject.Description}"/>
+                            </inputLayout:SfTextInputLayout>
+
+                            <Button Text="Save" Command="{Binding SaveObjectCommand}"  HeightRequest="50" Margin="0,-30,0,0" CornerRadius="5"></Button>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </sfPopup:SfPopup.ContentTemplate>
+        </sfPopup:SfPopup>
+
+    </StackLayout>
+
+</ContentPage>

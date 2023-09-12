@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DemoMauiFoodRecipe.Views.RecipePage"
+             xmlns:viewmodel="clr-namespace:DemoMauiFoodRecipe.ViewModels"
+                x:DataType="viewmodel:RecipePageViewModel"
+                xmlns:sfPopup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+                xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+                xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+                xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+                xmlns:control="clr-namespace:DemoMauiFoodRecipe.CustomControls"
+                Title="{Binding Title}">
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Recipe" Command="{Binding ShowDialogCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <Grid RowDefinitions="Auto,*" HeightRequest="600">
+
+            <editors:SfComboBox ItemsSource="{Binding OriginObjects}" DisplayMemberPath = "Name" TextMemberPath = "Name" IsEditable="false" Placeholder="Select Recipe Origin" SelectedItem="{Binding GetRecipeByOrigin}" />
+
+            <dataGrid:SfDataGrid Grid.Row="1" ItemsSource="{Binding RecipeObjects}" ColumnWidthMode="Auto" AutoGenerateColumnsMode="None" SortingMode="Single" HorizontalOptions="CenterAndExpand"  SelectionMode="Single"  SelectedRow="{Binding SelectedRowData}" ShowSortNumbers="True">
+                <dataGrid:SfDataGrid.Columns>
+                    <dataGrid:DataGridTextColumn HeaderText="Origin ID" MappingName="Id" />
+                    <dataGrid:DataGridTextColumn HeaderText="Recipe Name" MappingName="Name"/>
+                    <dataGrid:DataGridTextColumn HeaderText="Origin Name" MappingName="Origin.Name"/>
+                    <dataGrid:DataGridTextColumn HeaderText="Recipe Rank" MappingName="Rank"/>
+                    <dataGrid:DataGridTextColumn HeaderText="Time Needed" MappingName="TimeNeeded" />
+                    <dataGrid:DataGridTextColumn HeaderText="Recipe Date" MappingName="DateCreated"/>
+                    <dataGrid:DataGridTextColumn HeaderText="Description" MappingName="Description"/>
+                </dataGrid:SfDataGrid.Columns>
+            </dataGrid:SfDataGrid>
+        </Grid>
+
+
+        <sfPopup:SfPopup IsOpen="{Binding ShowPopup}" HeaderTitle="{Binding HeaderTitle}" WidthRequest="450" HeightRequest="700">
+            <sfPopup:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout>
+                        <Frame>
+                            <VerticalStackLayout Spacing="10">
+
+                                <inputLayout:SfTextInputLayout Hint="Origin Name" >
+                                    <Entry Text="{Binding RecipeObject.Name}"/>
+                                </inputLayout:SfTextInputLayout>
+
+                                <inputLayout:SfTextInputLayout Hint="Select Recipe Origin" >
+                                    <editors:SfComboBox ItemsSource="{Binding OriginObjects}" DisplayMemberPath = "Name" TextMemberPath = "Name" IsEditable="True" Placeholder="Select Origin" SelectedItem="{Binding SelectedOrigin}" />
+                                </inputLayout:SfTextInputLayout>
+
+                                <inputLayout:SfTextInputLayout Hint="Add Recipe Rank(Optional)">
+                                    <editors:SfNumericEntry Value="{Binding RecipeObject.Rank}" CustomFormat="0" ShowClearButton="True" IsEditable="True" />
+                                </inputLayout:SfTextInputLayout>
+
+                                <inputLayout:SfTextInputLayout Hint="Specify Time Needed" >
+                                    <editors:SfNumericEntry Value="{Binding RecipeObject.TimeNeeded}" CustomFormat="00.00" ShowClearButton="True" IsEditable="True" />
+                                </inputLayout:SfTextInputLayout>
+
+                                <inputLayout:SfTextInputLayout Hint="Recipe Description">
+                                    <Entry Text="{Binding RecipeObject.Description}"/>
+                                </inputLayout:SfTextInputLayout>
+
+                                <HorizontalStackLayout Spacing="10" Margin="0,0,0,20">
+                                    <Button Text="Browse Image" Command="{Binding BrowserImageCommand}"></Button>
+                                    <control:CustomImageControl Base64Source="{Binding ImageSource}" WidthRequest="50" HeightRequest="50"></control:CustomImageControl>
+                                </HorizontalStackLayout>
+
+                                <Button Text="Save" Command="{Binding SaveObjectCommand}"  HeightRequest="50" Margin="0,-20,0,0" CornerRadius="5"></Button>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </sfPopup:SfPopup.ContentTemplate>
+        </sfPopup:SfPopup>
+    </StackLayout>
+</ContentPage>

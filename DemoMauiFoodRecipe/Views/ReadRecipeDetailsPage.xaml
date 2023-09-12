@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DemoMauiFoodRecipe.Views.ReadRecipeDetailsPage"
+             xmlns:control="clr-namespace:DemoMauiFoodRecipe.CustomControls"
+            xmlns:viewmodel="clr-namespace:DemoMauiFoodRecipe.ViewModels"
+            x:DataType="viewmodel:ReadRecipeDetailsPageViewModel"
+            xmlns:models="clr-namespace:DemoMauiFoodRecipe.Models"
+            Title="{Binding Title}">
+
+    <ScrollView>
+        <StackLayout>
+            <Frame BackgroundColor="#def" Margin="10">
+                <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                    <control:CustomImageControl Base64Source="{Binding TappedRecipe.Image}" WidthRequest="500" HeightRequest="200" HorizontalOptions="CenterAndExpand"></control:CustomImageControl>
+
+
+                    <Frame BackgroundColor="#eee" Margin="10">
+                        <VerticalStackLayout HorizontalOptions="CenterAndExpand">
+                            <Label Text="Recipe Name" FontSize="Subtitle" HorizontalOptions="Center" FontAttributes="Bold"></Label>
+                            <Label Text="{Binding TappedRecipe.Name}" FontSize="Small" HorizontalOptions="Center" Margin="0,0,0,10"></Label>
+
+                            <Label Text="Recipe Description" FontSize="Subtitle" HorizontalOptions="Center" FontAttributes="Bold"></Label>
+                            <Label FontSize="Small" Text="{Binding TappedRecipe.Description}" HorizontalOptions="Center" Margin="0,0,0,10"></Label>
+
+                            <Label Text="Recipe Origin" FontSize="Subtitle" HorizontalOptions="Center" FontAttributes="Bold"></Label>
+                            <Label FontSize="Small" Text="{Binding TappedRecipe.Origin.Name}" HorizontalOptions="Center" Margin="0,0,0,10"></Label>
+
+                            <Label Text="Recipe Procedures" FontSize="Subtitle" HorizontalOptions="Center" FontAttributes="Bold"></Label>
+                            <CollectionView ItemsSource="{Binding TappedRecipe.Procedures}" >
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Procedure">
+                                        <VerticalStackLayout HorizontalOptions="Start">
+                                            <HorizontalStackLayout Spacing="10">
+                                                <HorizontalStackLayout Spacing="5">
+                                                    <Label FontSize="Small" Text="Step " HorizontalOptions="Center"></Label>
+                                                    <Label FontSize="Small" Text="{Binding Number}" HorizontalOptions="Center"></Label>
+                                                    <Label FontSize="Small" Text=":" HorizontalOptions="Center"></Label>
+                                                </HorizontalStackLayout>
+                                                <Label FontSize="Small" Text="{Binding  Title}" HorizontalOptions="Center"></Label>
+                                            </HorizontalStackLayout>
+
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Label FontSize="Small" Text="Description : "></Label>
+                                                <Label FontSize="Small" Text="{Binding  Description}" HorizontalOptions="Center" Margin="0,0,0,10"></Label>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Frame>
+                </VerticalStackLayout>
+            </Frame>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
